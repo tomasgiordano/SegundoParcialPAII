@@ -1,14 +1,15 @@
 const express = require('express');
 const personajesRouter = express.Router();
-const Personaje = require("./models/Personaje");
-const { verifyToken } = require("../utils/middlewares");
+const Personaje = require("../models/Personaje");
+const { verifyToken } = require("../middlewares/middlewares");
+
 
 personajesRouter.use(verifyToken);
 
 personajesRouter.get("/", verifyToken, (req, res,next) => {
     Personaje.find({})
     .then((personajes)=>{
-      personajes ? res.json(personajes):res.status(404).end();
+      return personajes ? res.json(personajes):res.status(404).end();
       })
     .catch((err) =>{
       next(err);
@@ -31,7 +32,7 @@ personajesRouter.get("/", verifyToken, (req, res,next) => {
   
       nuevoPersonaje.save()
       .then((personaje)=>{
-          personaje?res.status(201).json(personaje)
+          return personaje?res.status(201).json(personaje)
           :res.status(400).send();
   
       }).catch((err)=>{
@@ -43,7 +44,7 @@ personajesRouter.get("/", verifyToken, (req, res,next) => {
       const {id} = req.params;
   
       Personaje.findByIdAndRemove(id).then((personaje)=>{
-          personaje?res.status(200).json(personaje):res.status(404).end();
+         return personaje?res.status(200).json(personaje):res.status(404).end();
       }).catch((err)=>{
           next(err);
       })
@@ -58,7 +59,7 @@ personajesRouter.get("/", verifyToken, (req, res,next) => {
   
       Personaje.findByIdAndUpdate(id,per).then(
           personaje =>{
-              personaje?res.json(personaje):res.status(404).end();
+              return personaje?res.json(personaje):res.status(404).end();
           }
       ).catch(err =>{
           next(err);

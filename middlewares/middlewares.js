@@ -2,7 +2,7 @@ const jwt = require("jsonwebtoken");
 const {SECRET} = require("../utils/config");
 
 const handlerNotFound = (req,res) =>{
-    res.status(404).json({error:"No existe ese recurso"});
+    return res.status(404).json({error:"No existe ese recurso"});
 };
 
 const handlerError = (error,req,res,next) => {
@@ -35,7 +35,7 @@ const verifyToken = (req,res,next)=>{
         req.token = bearerToken.split(" ")[1];
 
         try {
-            const data = await jwt.verify(req.token,SECRET);
+            const data = jwt.verify(req.token,SECRET);
             console.log(data);
         } catch (error) {
             next(error);

@@ -1,11 +1,11 @@
 const express = require('express');
 const loginRouter = express.Router();
-const User = require("./models/User");
+const User = require("../models/User");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { SECRET } = require("../utils/config");
 
-loginRouter.post("/", (req,res,next)=>{
+loginRouter.post("/", async (req,res,next)=>{
     try {
         const user = await User.findOne({ username });
         const correctPass = 
@@ -24,7 +24,7 @@ loginRouter.post("/", (req,res,next)=>{
 
         const token = await jwt.sign(userToken, SECRET, {expiresIn:"120s"});
         
-        res.status(200).json({
+        return res.status(200).json({
             token,
             username
         })

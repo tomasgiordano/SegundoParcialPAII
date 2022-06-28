@@ -1,13 +1,13 @@
-const {connect} = require("mongoose");
-const {DB_URI} = require("../utils/config");
+const { connect } = require("mongoose");
 
-const conectarMongo = (uri)=>{
-    connect(uri).
-    then(()=>{
-        console.log("conectado a la base!!");
-    }).catch((err)=>{
+const conectarDB = async () => {
+    try{
+        await connect(process.env.URI_MONGO);
+        console.log("Base de datos - CONECTADO");
+    }catch(err){
         console.log(err);
-    });
-};
+        process.exit(1);
+    }
+}
 
-conectarMongo(DB_URI);
+module.exports = conectarDB;
