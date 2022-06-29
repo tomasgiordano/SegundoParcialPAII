@@ -3,13 +3,17 @@ const {model, Schema} = require("mongoose");
 const PersonajeSchema = Schema({
     nombre: {
         type: String,
-        required:true
+        required: true
     },
     edad: {
         type: Number,
         required: true,
         min: 18,
         max: 65
+    },
+    vuela:{
+        type:Boolean,
+        required: true
     }
 },{
     toJSON:{

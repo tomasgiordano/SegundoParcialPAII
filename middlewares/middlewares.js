@@ -29,14 +29,16 @@ const handlerError = (error,req,res,next) => {
 };
 
 const verifyToken = (req,res,next)=>{
-    const bearerToken = req.headers["autorization"];
+    const bearerToken = req.header("authorization");
 
-    if(typeof bearertToken != 'undefined'){
+    console.log(bearerToken);
+    if(bearerToken){
         req.token = bearerToken.split(" ")[1];
 
         try {
-            const data = jwt.verify(req.token,SECRET);
+            const data = jwt.verify(req.token,process.env.SECRET);
             console.log(data);
+            next();
         } catch (error) {
             next(error);
         }

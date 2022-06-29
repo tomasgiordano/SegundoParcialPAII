@@ -21,11 +21,13 @@ async function main(){
   const app = express();
   const PORT = process.env.PORT | 3000;
 
+  app.use(express.urlencoded({ extended: true }));
+  app.use(express.json());
+  app.use(morgan("tiny"));
+
   app.use('/api/personajes',personajesRouter);
   app.use('/api/users',usersRouter);
   app.use('/api/login',loginRouter);
-  app.use(express.json());
-  app.use(morgan("tiny"));
   app.use(logger);
   app.use(handlerNotFound);
   app.use(handlerError);

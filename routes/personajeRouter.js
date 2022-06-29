@@ -3,7 +3,6 @@ const personajesRouter = express.Router();
 const Personaje = require("../models/Personaje");
 const { verifyToken } = require("../middlewares/middlewares");
 
-
 personajesRouter.use(verifyToken);
 
 personajesRouter.get("/", verifyToken, (req, res,next) => {
@@ -27,8 +26,8 @@ personajesRouter.get("/", verifyToken, (req, res,next) => {
   });
   
   personajesRouter.post("/",(req, res,next) => {
-      const { nombre, edad } = req.body;
-      const nuevoPersonaje = new Personaje({nombre, edad});
+      const { nombre, edad, vuela } = req.body;
+      const nuevoPersonaje = new Personaje({nombre, edad, vuela});
   
       nuevoPersonaje.save()
       .then((personaje)=>{
@@ -53,13 +52,13 @@ personajesRouter.get("/", verifyToken, (req, res,next) => {
   
   personajesRouter.put('/:id',(req,res,next)=>{
       const {id} = req.params;
-      const {nombre,edad} = req.body;
+      const {nombre,edad,vuela} = req.body;
   
-      const per = {nombre,edad};
+      const per = {nombre,edad,vuela};
   
       Personaje.findByIdAndUpdate(id,per).then(
           personaje =>{
-              return personaje?res.json(personaje):res.status(404).end();
+              return personaje?res.json(per):res.status(404).end();
           }
       ).catch(err =>{
           next(err);
